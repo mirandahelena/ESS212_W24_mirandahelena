@@ -1,0 +1,14 @@
+language = "Python"
+print( language + ' says: Hello, World!') 
+
+language = "Julia"
+println("$language says: Hello, World!")
+
+language <- "R"
+cat(paste(language, "says: Hello, World!\n"))
+
+language = 'Matlab';
+s = 'says:';
+h = ('Hello');
+w = ('World!');
+disp ([language ' ' s ' ' h ' ' w])
