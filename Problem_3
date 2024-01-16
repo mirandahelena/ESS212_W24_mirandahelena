@@ -1,0 +1,65 @@
+# In the iterative loop, the program counts the i-th time it has gone through the loop whereas in the rec function the loop goes once and computes the function in one run
+#Iterative algorithm for O1(n) and S2(n) in Matlab 
+#O1(n) function 
+function o = o1_iter(n)
+for i = n 
+    o = i^2 ; 
+end
+end 
+
+# S2(n) function
+function s = s2_iter(n)
+ s = 0; 
+for i = 1:n 
+    s = s + i^2;  
+end
+end 
+
+#O1_iter in Julia 
+function o1_iter(n)
+       o = 0
+       for i in 1:n
+       o = i^2
+       end
+       return o
+       end
+
+#S2(n) function in Julia
+function s2_iter(n)
+       s=0
+       for i = 1:n
+       s= s+i^2
+       end
+       return s
+       end
+#o1_iter in Python
+def o1_iter(n):
+    for i in range(0,n+1):
+        o = i**2
+    return o 
+
+#s2_iter in Python
+def s2_iter(n):
+    s=0 
+    for i in range (0,n+1):
+        s = s + i**2;  
+    return s 
+
+#o1_iter in R
+ o1_iter <- function(n) {
+    o <- 0
+   for (i in 1:n) {
+        o <-  i**2
+     }
+     return(o)
+ }
+
+#s2_iter in R 
+S2_iter <- function(n) {
+     S <- 0
+     for (i in 1:n) {
+         S <- S + i**2
+     }
+     return(S)
+ }
+
