@@ -1,0 +1,2 @@
+the value for r where a limit exists for Sn= a * (1 - r^n) / (1 - r) is less than 1. Any value of r<1 .
+The limiting values is 1
