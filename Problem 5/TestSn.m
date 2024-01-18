@@ -1,0 +1,28 @@
+%testing r < 0, r = 0, 0 < r < 1, r = 1, and r > 1.
+ % Test Script
+
+classdef TestSn < matlab.unittest.TestCase
+    
+    methods (Test)
+        function testSn(testCase)
+            
+test1 = Sn(-1,2);
+testCase.verifyEqual(test1, 0);
+test2 = Sn(0,2);
+testCase.verifyEqual(test2, 1);
+test3 = Sn(0.5,2);
+testCase.verifyEqual(test3, 1.5, 'RelTol', 1e-2);
+test4 = Sn(1,2);
+testCase.verifyEqual(test4, NaN);
+test5 = Sn(2,2);
+testCase.verifyEqual(test5, 3);
+
+        end
+
+    end
+end
+
+
+
+
+
