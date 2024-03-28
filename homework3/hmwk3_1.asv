@@ -1,0 +1,211 @@
+clear all; 
+
+x=[-4;0;4];
+y=[30;2;6];
+y1 = @(e)-e;
+A = [x(1)^2 x(1) 1; x(2)^2 x(2) 1; x(3)^2 x(3) 1];
+%x_i = inv(A) * y1([0;0;0]);
+coeff = A\y;
+%finding e
+e=A*coeff-y; 
+
+%%
+% guess
+A = 1;
+B = 2;
+C = 3;
+
+new = @(x) [y(1) - x(1)*(x(2) - B)*(x(3) - C); 
+            y(2) - x(1)*(x(2) - B)*(x(3) - C); 
+            y(3) - x(1)*(x(2) - B)*(x(3) - C)];
+
+% Jacobian 
+Jacobian = @(x) [- (x(2) - B)*(x(3) - C), -x(1)*(x(3) - C), -x(1)*(x(2) - B); 
+                 - (x(2) - B)*(x(3) - C), -x(1)*(x(3) - C), -x(1)*(x(2) - B); 
+                 - (x(2) - B)*(x(3) - C), -x(1)*(x(3) - C), -x(1)*(x(2) - B)];
+
+% Initial guess
+x0 = [A; B; C];
+
+% Newton's method
+options = optimoptions('fmincon', 'Display', 'iter', 'PlotFcn', @optimplotfirstorderopt);
+[x_sol, ~, exitflag] = fsolve(new, x0, options);
+
+% Extracting A, B, and C
+A_sol = x_sol(1);
+B_sol = x_sol(2);
+C_sol = x_sol(3);
+
+
+%%
+% Initial guess
+A = 1;
+B = 2;
+C = 3;
+
+% Define the function
+new = @(x) [y(1) - x(1)*(x(2) - B)*(x(3) - C); ...
+            y(2) - x(1)*(x(2) - B)*(x(3) - C); ...
+            y(3) - x(1)*(x(2) - B)*(x(3) - C)];
+
+% Jacobian matrix
+Jacobian = @(x) [- (x(2) - B)*(x(3) - C), -x(1)*(x(3) - C), -x(1)*(x(2) - B); ...
+                 - (x(2) - B)*(x(3) - C), -x(1)*(x(3) - C), -x(1)*(x(2) - B); ...
+                 - (x(2) - B)*(x(3) - C), -x(1)*(x(3) - C), -x(1)*(x(2) - B)];
+
+% Initial guess
+x0 = [A; B; C];
+
+% Newton's method
+max_iterations = 10;
+tolerance = 1e-8;
+x_current = x0;
+
+for iter = 1:max_iterations
+    % Evaluate the function and Jacobian matrix
+    f_val = new(x_current);
+    J_val = Jacobian(x_current);
+    
+    % Solve linear system
+    delta_x = - J_val \ f_val;
+    
+    % Update x
+    x_next = x_current + delta_x;
+    
+    % Check convergence
+    if norm(delta_x) < tolerance
+        fprintf('Converged at iteration %d\n', iter);
+        break;
+    end
+    
+    % Update x_current for next iteration
+    x_current = x_next;
+end
+
+% Extracting A, B, and C
+A_sol = x_current(1);
+B_sol = x_current(2);
+C_sol = x_current(3);
+
+
+%%
+
+% Given data points
+x = [-4; 0; 4];
+y = [30; 2; 6];
+
+% Initial guess
+A = 1;
+B = 2;
+C = 3;
+
+% Define the function
+fun = @(x) [y(1) - x(1)*(x(2) - x(4))*(x(3) - x(5)); ...
+            y(2) - x(1)*(x(2) - x(4))*(x(3) - x(5)); ...
+            y(3) - x(1)*(x(2) - x(4))*(x(3) - x(5))];
+
+% Jacobian matrix
+Jacobian = @(x) [- (x(2) - x(4))*(x(3) - x(5)), -x(1)*(x(3) - x(5)), -x(1)*(x(2) - x(4)), x(1)*(x(2) - x(4)), x(1)*(x(3) - x(5)); ...
+                 - (x(2) - x(4))*(x(3) - x(5)), -x(1)*(x(3) - x(5)), -x(1)*(x(2) - x(4)), x(1)*(x(2) - x(4)), x(1)*(x(3) - x(5)); ...
+                 - (x(2) - x(4))*(x(3) - x(5)), -x(1)*(x(3) - x(5)), -x(1)*(x(2) - x(4)), x(1)*(x(2) - x(4)), x(1)*(x(3) - x(5))];
+
+% Initial guess
+x0 = [A; B; C; B; C]; % Adding B and C as initial guesses for better convergence
+
+% Newton's method
+max_iterations = 100;
+tolerance = 1e-8;
+x_current = x0;
+
+for iter = 1:max_iterations
+    % Evaluate the function and Jacobian matrix
+    f_val = fun(x_current);
+    J_val = Jacobian(x_current);
+    
+    % Solve linear system
+    delta_x = - J_val \ f_val;
+    
+    % Update x
+    x_next = x_current + delta_x;
+    
+    % Check convergence
+    if norm(delta_x) < tolerance
+        fprintf('Converged at iteration %d\n', iter);
+        break;
+    end
+    
+    % Update x_current for next iteration
+    x_current = x_next;
+end
+
+% Extracting A, B, and C
+A_sol = x_current(1);
+B_sol = x_current(2);
+C_sol = x_current(3);
+
+% Displaying the solution
+fprintf('Solution:\n');
+fprintf('A = %.4f\n', A_sol);
+fprintf('B = %.4f\n', B_sol);
+fprintf('C = %.4f\n', C_sol);
+
+%%
+
+% Given data points
+x = [-4; 0; 4];
+y = [30; 2; 6];
+
+% Initial guess
+A = 0;
+B = 2;
+C = 3;
+
+% Define the function
+fun = @(x) [y(1) - x(1)*(x(2) - x(4))*(x(3) - x(5)); ...
+            y(2) - x(1)*(x(2) - x(4))*(x(3) - x(5)); ...
+            y(3) - x(1)*(x(2) - x(4))*(x(3) - x(5))];
+
+% Jacobian matrix
+Jacobian = @(x) [- (x(2) - x(4))*(x(3) - x(5)), -x(1)*(x(3) - x(5)), -x(1)*(x(2) - x(4)), x(1)*(x(2) - x(4)), x(1)*(x(3) - x(5)); ...
+                 - (x(2) - x(4))*(x(3) - x(5)), -x(1)*(x(3) - x(5)), -x(1)*(x(2) - x(4)), x(1)*(x(2) - x(4)), x(1)*(x(3) - x(5)); ...
+                 - (x(2) - x(4))*(x(3) - x(5)), -x(1)*(x(3) - x(5)), -x(1)*(x(2) - x(4)), x(1)*(x(2) - x(4)), x(1)*(x(3) - x(5))];
+
+% Initial guess
+x0 = [A; B; C]; % Adding B and C as initial guesses for better convergence
+
+% Newton's method
+max_iterations = 100;
+tolerance = 1e-8;
+x_current = x0;
+
+for iter = 1:max_iterations
+    % Evaluate the function and Jacobian matrix
+    f_val = fun(x_current);
+    J_val = Jacobian(x_current);
+    
+    % Solve linear system
+    delta_x = - J_val \ f_val;
+    
+    % Update x
+    x_next = x_current + delta_x;
+    
+    % Check convergence
+    if norm(delta_x) < tolerance
+        fprintf('Converged at iteration %d\n', iter);
+        break;
+    end
+    
+    % Update x_current for next iteration
+    x_current = x_next;
+end
+
+% Extracting A, B, and C
+A_sol = x_current(1);
+B_sol = x_current(2);
+C_sol = x_current(3);
+
+% Displaying the solution
+fprintf('Solution:\n');
+fprintf('A = %.4f\n', A_sol);
+fprintf('B = %.4f\n', B_sol);
+fprintf('C = %.4f\n', C_sol);
